@@ -1,15 +1,17 @@
 <template>
-  <input type="text" v-model="userName" placeholder="Имя"></input>
-  <input type="password" v-model="userPass" placeholder="Пароль"></input>
-  <input type="email" v-model="userEmail" placeholder="Email"></input>
-  <button @click="sendData()">Отправить</button>
-  <p className="error"></p>
+  <input type="text" v-model="userName" placeholder="Имя" />
+  <input type="password" v-model="userPass" placeholder="Пароль" />
+  <input type="email" v-model="userEmail" placeholder="Email" />
+  <button @click="sendData">Отправить</button>
+  <p className="error">{{ error }}</p>
   <p>{{ users }}</p>
 </template>
 
 <style scoped>
 h1 {
-  color: red
+}
+.error {
+  color: red;
 }
 </style>
 
@@ -21,25 +23,39 @@ export default {
       userName: '',
       userPass: '',
       userEmail: '',
+      error: '', // Добавлено поле для ошибок
     }
   },
   methods: {
     sendData() {
-      if (this.userName == '')
-        this.error = 'Вбейте имя'
-      return;
-      if (this.userPass == '')
-        this.error = 'Вбейте пароль'
-      return;
-      if (this.userEmail == '')
-        this.error = 'Вбейте почту'
-      return;
+      // Логика проверки полей
+      if (this.userName === '') {
+        this.error = 'Вбейте имя';
+        return; // Исправлено: теперь return внутри блока if
+      }
+      if (this.userPass === '') {
+        this.error = 'Вбейте пароль';
+        return;
+      }
+      if (this.userEmail === '') {
+        this.error = 'Вбейте почту';
+        return;
+      }
 
+      // Если все проверки пройдены, сбросить ошибку
+      this.error = '';
+
+      // Добавление пользователя в массив users
       this.users.push({
         name: this.userName,
         pass: this.userPass,
-        emai: this.userEmail
-      })
+        email: this.userEmail // Исправлено имя поля на email
+      });
+
+      // Очистка полей после добавления пользователя
+      this.userName = '';
+      this.userPass = '';
+      this.userEmail = '';
     }
   }
 }
