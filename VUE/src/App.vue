@@ -5,11 +5,14 @@
   <button @click="sendData">Отправить</button>
   <p className="error">{{ error }}</p>
   <p>{{ users }}</p>
+
+  <div v-for="(el, index) in users" :key="index">
+    <h3>{{ el.name }}</h3>
+    <p>{{ e.email }} — <b>{{ el.pass }}</b></p>
+  </div>
 </template>
 
 <style scoped>
-h1 {
-}
 .error {
   color: red;
 }
