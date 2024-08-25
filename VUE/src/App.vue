@@ -12,7 +12,7 @@
   <div v-if="error" class="elem error">{{ error }}</div>
   <p>{{ users }}</p>
 
-  <User v-for="(user, index) in users" :key="index" :user="user" />
+  <User v-for="(user, index) in users" :key="index" :user="user" :index="index" :deleteUser="deleteUser" />
 </template>
 
 <style scoped>
@@ -71,6 +71,9 @@ export default {
       this.userName = '';
       this.userPass = '';
       this.userEmail = '';
+    },
+    deleteUser(index) {
+      this.users.splice(index, 1);
     }
   }
 }
