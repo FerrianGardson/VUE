@@ -1,25 +1,37 @@
 <template>
-  <input type="text" v-model="userName" placeholder="Имя" />
-  <input type="password" v-model="userPass" placeholder="Пароль" />
-  <input type="email" v-model="userEmail" placeholder="Email" />
+  <input type="text" v-model="userName" placeholder="Имя" @keyup.enter="sendData" />
+  <input type="password" v-model="userPass" placeholder="Пароль" @keyup.enter="sendData" />
+  <input type="email" v-model="userEmail" placeholder="Email" @keyup.enter="sendData" />
   <button @click="sendData">Отправить</button>
-  <p className="error">{{ error }}</p>
+
+  <!-- Исправления в условном рендеринге -->
+  <div v-if="users.length === 0" class="elem">Нет пользователей</div>
+  <div v-else-if="users.length === 1" class="elem">Один пользователь</div>
+  <div v-else class="elem">Много пользователей</div>
+
+  <div v-if="error" class="elem error">{{ error }}</div>
   <p>{{ users }}</p>
 
-  <div v-for="(el, index) in users" :key="index">
-    <h3>{{ el.name }}</h3>
-    <p>{{ e.email }} — <b>{{ el.pass }}</b></p>
-  </div>
+  <User v-for="(user, index) in users" :key="index" :user="user" />
 </template>
 
 <style scoped>
 .error {
   color: red;
 }
+
+.elem {
+  background: #f3f3f3;
+  padding: 2rem;
+  width: fit-content;
+}
 </style>
 
 <script>
+import User from "./components/User.vue";
+
 export default {
+  components: { User },
   data() {
     return {
       users: [],
